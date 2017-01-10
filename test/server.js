@@ -44,9 +44,9 @@ describe('Request Parrot', function () {
     };
 
     request(options, function (error, response, body) {
-      assert(!error && response.statusCode == 200 && 'body' in body);
+      assert(!error && response.statusCode == 200 && 'data' in body);
 
-      assert.deepEqual(options.form, body.body);
+      assert.deepEqual(options.form, body.data);
 
       done();
     });

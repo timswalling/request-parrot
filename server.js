@@ -22,24 +22,24 @@ const parrot = function (request, response) {
     'Cache-Control': 'private',
     'Content-Type': 'application/json'
   };
-  let requestBody = '';
-  let requestData = {
+  let requestData = '';
+  let requestInfo = {
     headers: request.headers
   };
   let requestUrl = `${request.protocol || request.headers['x-forwarded-proto'] || 'http'}://${request.headers.host}${request.url}`;
 
-  requestData.url = url.parse(requestUrl);
+  requestInfo.url = url.parse(requestUrl);
 
   request.on('data', function (chunk) {
-    requestBody += chunk.toString();
+    requestData += chunk.toString();
   });
 
   request.on('end', function () {
-    if (requestBody) {
-      requestData.body = querystring.parse(requestBody);
+    if (requestData) {
+      requestInfo.data = querystring.parse(requestData);
     }
 
-    let responseBody = JSON.stringify(requestData, null, 4);
+    let responseBody = JSON.stringify(requestInfo, null, 4);
 
     response.writeHead(200, responseHeaders);
     response.write(responseBody);
